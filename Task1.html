@@ -1,0 +1,85 @@
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<div id="container"></div>
+		<script>
+			document.getElementsByTagName('body')[0].style.backgroundColor =
+				'#d4cec5';
+			//  container style
+			const containerSelector = document.getElementById('container');
+			containerSelector.style.cssText =
+				'display: flex; flex-direction: column; justify-content: center; padding-top: 20%; align-items: center; width: 80%; margin: 0 auto;';
+			// append  a new div  for input  and button
+			const headerdivSelector = document.createElement('div');
+			containerSelector.appendChild(headerdivSelector);
+			// input and button container style
+			headerdivSelector.style.cssText =
+				'display: flex; flex-direction: row; justify-content: center; align-items: center; width:100%; ';
+			// appending input to header div and adding style
+			const inputSelector = document.createElement('input');
+			headerdivSelector.appendChild(inputSelector);
+			inputSelector.placeholder = 'Add your task here';
+			inputSelector.style.cssText =
+				'width: 70%;height: 30px;border-width: 1px;background-color: rgb(250, 235, 215);border-radius: 20px;padding-inline: 15px;';
+			// button style and appending to header div
+			const buttonSelector = document.createElement('button');
+			buttonSelector.textContent = 'Add';
+			buttonSelector.style.cssText =
+				'background-color: rgb(250, 235, 215);border-width: 0px;border-radius: 15px;padding: 6px 21px;margin-inline: 6px; color: #b7b0a6;font-weight: bold;cursor: pointer;';
+			headerdivSelector.appendChild(buttonSelector);
+
+			// done function fired when clicking done to toggle background  and color change on div by checking  class name if its selected or not
+			const doneTask = (event) => {
+				const selectedDiv = event.target;
+				const parentDiv = selectedDiv.parentElement;
+
+				if (parentDiv.getAttribute('class') === 'notSelected') {
+					parentDiv.setAttribute('class', 'selected');
+					parentDiv.style.backgroundColor = 'rgb(103,190,100)';
+					parentDiv.style.color = 'red';
+				} else {
+					parentDiv.setAttribute('class', 'notSelected');
+					parentDiv.style.backgroundColor = 'rgb(212, 206, 197)';
+					parentDiv.style.color = 'black';
+				}
+			};
+			//  delete task function  checking parent div of clickable button and removing it
+			const deleteTask = (event) => {
+				const selectedDiv = event.target;
+				selectedDiv.parentElement.remove();
+			};
+
+			// add task function to add value on input to  a new div containing a span and 2 buttons also adding selected or notSelected class name to check if  its done later
+			const addTask = () => {
+				const newDiv = document.createElement('div');
+				containerSelector.appendChild(newDiv);
+				newDiv.setAttribute('class', 'notSelected');
+				newDiv.style.cssText =
+					'width: 100%;display: flex;flex-direction: row; padding: 10px 15px; background-color:#d4cec5; border-radius:30px; margin-top:10px;';
+				const newSpan = document.createElement('span');
+				newDiv.appendChild(newSpan);
+				newSpan.style.cssText =
+					' flex-grow:1; border-radius: 20px; padding: 2px 4px; border: 1px solid #b7b0a6; ';
+				newSpan.innerText = inputSelector.value;
+				const newDoneBtn = document.createElement('button');
+				newDoneBtn.style.cssText =
+					'background-color: rgb(250, 235, 215);border-width: 0px;border-radius: 15px;padding: 6px 21px;margin-inline: 6px; color: #b7b0a6; font-weight: bold;cursor: pointer;';
+				newDoneBtn.textContent = 'Done';
+				newDiv.appendChild(newDoneBtn);
+				newDoneBtn.addEventListener('click', (event) => doneTask(event));
+				const newDeleteBtn = document.createElement('button');
+				newDeleteBtn.style.cssText =
+					'background-color: rgb(250, 235, 215);border-width: 0px;border-radius: 15px;padding: 6px 21px;margin-inline: 6px; color: #b7b0a6; font-weight: bold;cursor: pointer;';
+				newDeleteBtn.textContent = 'Delete';
+				newDiv.appendChild(newDeleteBtn);
+				newDeleteBtn.addEventListener('click', (event) => deleteTask(event));
+			};
+			buttonSelector.addEventListener('click', addTask);
+		</script>
+	</body>
+</html>

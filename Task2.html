@@ -1,0 +1,44 @@
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<div>
+			<h1 style="text-align: center">Task2</h1>
+			<h4 style="text-align: center">getting data from JSON placholder</h4>
+			<h4 style="text-align: center" id="loading">LOADING</h4>
+			<ul id="ulID"></ul>
+		</div>
+		<script>
+			const apiUrl = 'https://jsonplaceholder.typicode.com/posts';
+			const xhr = new XMLHttpRequest();
+			const loadingEl = document.getElementById('loading');
+			xhr.onload = () => {
+				if (xhr.status === 200) {
+					loadingEl.style.display = 'none';
+					const posts = JSON.parse(xhr.responseText);
+					const parentEl = document.getElementById('ulID');
+					posts.map((post) => {
+						let newPost = document.createElement('li');
+						newPost.textContent = post.title;
+						parentEl.appendChild(newPost);
+						console.log(newPost);
+					});
+
+					console.log(posts);
+				} else {
+					loadingEl.style.display = 'block';
+					console.log('Server response:', xhr.status);
+				}
+			};
+			xhr.onerror = () => {
+				console.log('An error occurred');
+			};
+			xhr.open('GET', apiUrl);
+			xhr.send();
+		</script>
+	</body>
+</html>
